@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": [
+    "id", "name", "role"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"},
+	"name": {
+	  "type": "string"
+    },
+	"role": {
+	  "type": "string"
+    }	
+  },
+  "example": {
+    "id": "1",
+    "name": "John Smith",
+    "role": "Admin"
+  }
+}

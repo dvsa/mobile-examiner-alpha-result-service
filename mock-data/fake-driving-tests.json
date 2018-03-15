@@ -1,0 +1,66 @@
+[
+    {
+      "id": "1",
+      "candidate": {
+        "name": "Daniel",
+        "surname": "Childs"
+      },
+      "pass": true,
+      "competencies": [
+        {
+          "id": "juncSpeed",
+          "faultsNo": 1,
+          "isSerious": false,
+          "isDangerous": false
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "candidate": {
+        "name": "Ross",
+        "surname": "McDonald"
+      },
+      "pass": true,
+      "competencies": [
+        {
+          "id": "vehicleCheck",
+          "faultsNo": 4,
+          "isSerious": false,
+          "isDangerous": false
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "candidate": {
+        "name": "Szymon",
+        "surname": "Richert"
+      },
+      "pass": false,
+      "competencies": [
+        {
+          "id": "mirrorSignal",
+          "faultsNo": 1,
+          "isSerious": false,
+          "isDangerous": true
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "candidate": {
+        "name": "John",
+        "surname": "Smith"
+      },
+      "pass": false,
+      "competencies": [
+        {
+          "id": "posDriving",
+          "faultsNo": 2,
+          "isSerious": true,
+          "isDangerous": false
+        }
+      ]
+    }
+]

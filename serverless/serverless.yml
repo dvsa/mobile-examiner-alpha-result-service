@@ -1,0 +1,127 @@
+service: aws-starter
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+custom:
+  documentation:
+    models:
+      - name: ErrorResponse
+        description: This is an error
+        contentType: application/json
+        schema: ${file(models/ErrorResponse.json)}
+      - name: PutRequest
+        description: This is a put request
+        contentType: application/json
+        schema: ${file(models/PutRequest.json)}
+      - name: GetResponse
+        description: This is a getresponse
+        contentType: application/json
+        schema: ${file(models/GetResponse.json)}
+      - name: UserResponse
+        description: This is a user response
+        contentType: application/json
+        schema: ${file(models/UserResponse.json)}
+      - name: UsersResponse
+        description: This is a users response
+        contentType: application/json
+        schema: ${file(models/UsersResponse.json)}
+    version: '1'
+    title: 'Test API'
+    description: 'This is a test of open api dcoumentation'
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+      seed: true
+    seed:
+      test:
+        sources:
+          -
+            table: drivingTestsTable
+            sources: [./mock-data/fake-driving-tests.json]
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-openapi-documentation
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-west-1
+  environment:
+    DYNAMODB_TABLE: drivingTestsTable
+    ENV: DEV  # TODO: Can we do something clever here with build settings?
+
+functions:
+  authorizer:
+    handler: handler.auth
+    memorySize: 128
+  list:
+    handler: handler.list
+    memorySize: 128
+    events:
+      -
+        http:
+          path: drivingTests
+          method: get
+          authorizer: authorizer
+          cors: true
+          documentation:
+            summary: "List of Driving Tests"
+            description: "Lists of driving tests"
+            requestBody:
+              description: "None"
+            requestModels:
+              application/json: "GetRequest"
+            methodResponses:
+              - statusCode: 200
+                responseBody:
+                  description: "A list of driving tests"
+                responseModels:
+                  application/json: "UsersResponse"
+              - statusCode: 500
+                responseBody:
+                  description: "An error message when listing users"
+                responseModels:
+                  application/json: "ErrorResponse"
+  create:
+    handler: handler.create
+    memorySize: 128
+    events:
+      -
+        http:
+          path: /drivingTests
+          method: post
+          authorizer: authorizer
+          cors: true
+
+resources:
+  Resources:
+    drivingTestsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: drivingTestsTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    DynamoDBIamPolicy:
+      Type: AWS::IAM::Policy
+      DependsOn: drivingTestsTable
+      Properties:
+        PolicyName: lambda-dynamodb
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Scan
+                - dynamodb:PutItem
+              Resource: arn:aws:dynamodb:*:*:table/drivingTestsTable
+        Roles:
+          - Ref: IamRoleLambdaExecution
