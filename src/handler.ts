@@ -8,4 +8,5 @@ const handler = {
 	create,
 };
 
-export default handler;
+exports.default = handler;
+module.exports = exports['default'];

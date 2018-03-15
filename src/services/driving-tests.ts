@@ -1,6 +1,6 @@
-import { uuid } from 'uuid';
 import createResponse from '../utils/createResponse';
 import { DynamoDB, AWSError } from 'aws-sdk';
+import * as UUID from 'uuid'
 
 export default class DrivingTests {
 
@@ -91,10 +91,9 @@ export default class DrivingTests {
 		// 	});
 		// 	callback(error);
 		// }
-
 		const params = {
 			TableName: this.tableName,
-			Item: { ...drivingTestsData, id: uuid.v1() }
+			Item: { ...drivingTestsData, id: UUID.v1()  }
 		};
 
 		// write the user to the database
@@ -102,7 +101,7 @@ export default class DrivingTests {
 			// handle potential errors
 			if (err) {
 				message = 'Error!';
-				console.error(error);
+				console.error(err);
 				error = createResponse({
 					body: {
 						message,

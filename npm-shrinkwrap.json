@@ -56,6 +56,15 @@
       "integrity": "sha512-4Ba90mWNx8ddbafuyGGwjkZMigi+AWfYLSDCpovwsE63ia8w93r3oJ8PIAQc3y8U+XHcnMOHPIzNe3o438Ywcw==",
       "dev": true
     },
+    "@types/uuid": {
+      "version": "3.4.3",
+      "resolved": "https://registry.npmjs.org/@types/uuid/-/uuid-3.4.3.tgz",
+      "integrity": "sha512-5fRLCYhLtDb3hMWqQyH10qtF+Ud2JnNCXTCZ+9ktNdCcgslcuXkDTkFcJNk++MT29yDntDnlF1+jD+uVGumsbw==",
+      "dev": true,
+      "requires": {
+        "@types/node": "9.4.7"
+      }
+    },
     "abbrev": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz",

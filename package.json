@@ -27,6 +27,7 @@
     "@types/aws-lambda": "0.0.33",
     "@types/aws-sdk": "^2.7.0",
     "@types/node": "^9.4.7",
+    "@types/uuid": "^3.4.3",
     "babel-cli": "~6.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
