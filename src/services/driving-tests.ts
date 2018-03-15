@@ -1,29 +1,21 @@
-import uuid from 'uuid';
-
+import { uuid } from 'uuid';
 import createResponse from '../utils/createResponse';
+import { DynamoDB, AWSError } from 'aws-sdk';
 
 export default class DrivingTests {
 
-	constructor(db, tableName) {
-		this.db = db;
-		this.tableName = tableName;
-	}
+	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { }
 
 	list(callback) {
-
-		let message;
+		let message: string;
 		let response;
 		let error;
 
-		const params = {
-			TableName: this.tableName,
-		};
+		const params: DynamoDB.DocumentClient.ScanInput = { TableName: this.tableName };
 
 		console.log('Scanning DrivingTests Table..');
 
-		this.db.scan(params, onScan);
-
-		function onScan(err, data) {
+		this.db.scan(params, (err: AWSError, data: DynamoDB.ScanOutput) => {
 			if (err) {
 				message = 'Error!';
 				error = createResponse({
@@ -36,21 +28,18 @@ export default class DrivingTests {
 				callback(error);
 			} else {
 				message = 'Success!';
-				const drivingTests = data.Items;
-				// return drivingTests
 				response = createResponse({
 					body: {
 						message,
-						drivingTests,
+						drivingTests: data.Items,
 					},
 				});
 				callback(null, response);
 			}
-		}
+		})
 	}
 
 	get(id, callback) {
-
 		let message;
 		let error;
 		let response;
@@ -103,16 +92,9 @@ export default class DrivingTests {
 		// 	callback(error);
 		// }
 
-		const id = {
-			id: uuid.v1()
-		};
-		Object.assign(drivingTestsData, id);
-
-		console.log('Prepared DT: ' + JSON.stringify(drivingTestsData));
-
 		const params = {
 			TableName: this.tableName,
-			Item: drivingTestsData
+			Item: { ...drivingTestsData, id: uuid.v1() }
 		};
 
 		// write the user to the database

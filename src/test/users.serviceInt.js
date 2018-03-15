@@ -1,127 +1,127 @@
-import supertest from 'supertest';
-import expect from 'expect';
+// import supertest from 'supertest';
+// import expect from 'expect';
 
-import users from '../../mock-data/fake-users.json';
+// import users from '../../mock-data/fake-users.json';
 
-const url = 'http://localhost:3000/users';
-const request = supertest(url);
+// const url = 'http://localhost:3000/users';
+// const request = supertest(url);
 
-describe('users', () => {
+// describe('users', () => {
 
-	context('GET', () => {
+// 	context('GET', () => {
 
-		context('all users', () => {
+// 		context('all users', () => {
 
-			it('should return all users', (done) => {
+// 			it('should return all users', (done) => {
 
-				request
-					.get('/')
-					.set('Context-Type', 'application/json')
-					.set('authorization', 'allow')
-					.expect(200)
-					.expect('Content-Type', 'application/json')
-					.end((err, res) => {
-						if (err) throw err;
-						expect(res.body.users.length).toEqual(4);
-						done();
-					});
+// 				request
+// 					.get('/')
+// 					.set('Context-Type', 'application/json')
+// 					.set('authorization', 'allow')
+// 					.expect(200)
+// 					.expect('Content-Type', 'application/json')
+// 					.end((err, res) => {
+// 						if (err) throw err;
+// 						expect(res.body.users.length).toEqual(4);
+// 						done();
+// 					});
 
-			});
+// 			});
 
-			it('should block unauthorised requests', (done) => {
+// 			it('should block unauthorised requests', (done) => {
 
-				request
-					.get('/')
-					.set('Context-Type', 'application/json')
-					.set('authorization', 'hack')
-					.expect(401)
-					.end((err, res) => {
-						if (err) throw err;
-						expect(res.body.message).toEqual('Unauthorized');
-						done();
-					});
+// 				request
+// 					.get('/')
+// 					.set('Context-Type', 'application/json')
+// 					.set('authorization', 'hack')
+// 					.expect(401)
+// 					.end((err, res) => {
+// 						if (err) throw err;
+// 						expect(res.body.message).toEqual('Unauthorized');
+// 						done();
+// 					});
 
-			});
+// 			});
 
-		});
+// 		});
 
-		context('one user', () => {
+// 		context('one user', () => {
 
-			it('should return the correct user', (done) => {
+// 			it('should return the correct user', (done) => {
 
-				const expectedUser = users.filter(user => user.id === '1')[0];
+// 				const expectedUser = users.filter(user => user.id === '1')[0];
 
-				request
-					.get('/1')
-					.set('Context-Type', 'application/json')
-					.set('authorization', 'allow')
-					.expect(200)
-					.expect('Content-Type', 'application/json')
-					.end((err, res) => {
-						if (err) throw err;
-						expect(res.body.user).toEqual(expectedUser);
-						done();
-					});
-			});
+// 				request
+// 					.get('/1')
+// 					.set('Context-Type', 'application/json')
+// 					.set('authorization', 'allow')
+// 					.expect(200)
+// 					.expect('Content-Type', 'application/json')
+// 					.end((err, res) => {
+// 						if (err) throw err;
+// 						expect(res.body.user).toEqual(expectedUser);
+// 						done();
+// 					});
+// 			});
 
-		});
+// 		});
 
-	});
+// 	});
 
-	context('PUT', () => {
+// 	context('PUT', () => {
 
-		context('Create new user', () => {
+// 		context('Create new user', () => {
 
-			it('returns the newly created user', (done) => {
+// 			it('returns the newly created user', (done) => {
 
-				request
-					.put('/')
-					.set('Context-Type', 'application/json')
-					.set('authorization', 'allow')
-					.send({
-						name: 'Michael',
-						role: 'admin',
-					})
-					.expect(200)
-					.expect('Content-Type', 'application/json')
-					.end((err, res) => {
-						if (err) throw err;
-						expect(res.body.user.name).toEqual('Michael');
-						expect(res.body.user.role).toEqual('admin');
-						return request
-							.get('/')
-							.set('authorization', 'allow')
-							.end((_err, _res) => {
-								if (_err) throw _err;
-								expect(_res.body.users.length).toEqual(5);
-								done();
-							});
-					});
-			});
-		});
-	});
+// 				request
+// 					.put('/')
+// 					.set('Context-Type', 'application/json')
+// 					.set('authorization', 'allow')
+// 					.send({
+// 						name: 'Michael',
+// 						role: 'admin',
+// 					})
+// 					.expect(200)
+// 					.expect('Content-Type', 'application/json')
+// 					.end((err, res) => {
+// 						if (err) throw err;
+// 						expect(res.body.user.name).toEqual('Michael');
+// 						expect(res.body.user.role).toEqual('admin');
+// 						return request
+// 							.get('/')
+// 							.set('authorization', 'allow')
+// 							.end((_err, _res) => {
+// 								if (_err) throw _err;
+// 								expect(_res.body.users.length).toEqual(5);
+// 								done();
+// 							});
+// 					});
+// 			});
+// 		});
+// 	});
 
-	context('DELETE', () => {
+// 	context('DELETE', () => {
 
-		it('should return a 200 response and an empty object', (done) => {
+// 		it('should return a 200 response and an empty object', (done) => {
 
-			request
-				.delete('/2')
-				.set('Context-Type', 'application/json')
-				.set('authorization', 'allow')
-				.expect(200)
-				.end((err, res) => {
-					if (err) throw err;
-					expect(res.body).toEqual({});
-					return request
-						.get('/')
-						.set('authorization', 'allow')
-						.end((_err, _res) => {
-							if (_err) throw _err;
-							expect(_res.body.users.length).toEqual(4);
-							done();
-						});
-				});
-		});
-	});
-});
+// 			request
+// 				.delete('/2')
+// 				.set('Context-Type', 'application/json')
+// 				.set('authorization', 'allow')
+// 				.expect(200)
+// 				.end((err, res) => {
+// 					if (err) throw err;
+// 					expect(res.body).toEqual({});
+// 					return request
+// 						.get('/')
+// 						.set('authorization', 'allow')
+// 						.end((_err, _res) => {
+// 							if (_err) throw _err;
+// 							expect(_res.body.users.length).toEqual(4);
+// 							done();
+// 						});
+// 				});
+// 		});
+// 	});
+// });

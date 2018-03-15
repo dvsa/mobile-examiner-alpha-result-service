@@ -1,21 +1,20 @@
+import { IAuth } from './iauth';
 /* eslint class-methods-use-this: "off" */
 /* eslint-env es6 */
 // TODO, replace this with real authentication.
 
-export default class SimpleAuth {
-	constructor(token) {
-		this.token = token;
-	}
+export default class SimpleAuth implements IAuth {
+	constructor(private token) { }
 
-	isTokenValid() {
+	isTokenValid(): boolean {
 		return this.token === 'allow' || this.token === 'deny';
 	}
 
-	getTokenEffect() {
+	getTokenEffect(): string {
 		return (this.token === 'allow') ? 'Allow' : 'Deny';
 	}
 
-	getPrincipalId() {
+	getPrincipalId(): string {
 		return 'Auth User';
 	}
 }

@@ -2,7 +2,11 @@ import SimpleAuth from '../services/simpleAuth';
 import NoAuth from '../services/noAuth';
 import isDevEnv from '../utils/isDevEnv';
 
-export default (event, context, callback) => {
+import { Context, Callback } from 'aws-lambda';
+import { IAuth } from '../services/iauth';
+
+
+export default (event, context: Context, callback: Callback) => {
 	const token = event.authorizationToken;
 	const authorizer = generateAuthorizer(token);
 
@@ -16,24 +20,25 @@ export default (event, context, callback) => {
 		};
 		callback(null, response);
 	} else {
-		callback('Unauthorized');
+		callback(Error('Unauthorized'));
 	}
 };
 
-function generateAuthorizer(token) {
+function generateAuthorizer(token): IAuth {
 	return isDevEnv() ? new SimpleAuth(token) : new NoAuth(token);
 }
 
-function generatePolicy(effect, resource) {
-	const policy = {};
-	policy.Version = '2012-10-17';
-	policy.Statement = [];
+function generatePolicy(effect, resource): any {
+	const statement = {
+		Action: 'execute-api:Invoke',
+		Effect: effect,
+		Resource: resource
+	};
 
-	const statement = {};
-	statement.Action = 'execute-api:Invoke';
-	statement.Effect = effect;
-	statement.Resource = resource;
-	policy.Statement.push(statement);
-
+	const policy: any = {
+		Version:'2012-10-17',
+		Statement: [statement]
+	};
+	
 	return policy;
 }
