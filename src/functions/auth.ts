@@ -5,7 +5,6 @@ import isDevEnv from '../utils/isDevEnv';
 import { Context, Callback } from 'aws-lambda';
 import { IAuth } from '../services/iauth';
 
-
 export default (event, context: Context, callback: Callback) => {
 	const token = event.authorizationToken;
 	const authorizer = generateAuthorizer(token);
