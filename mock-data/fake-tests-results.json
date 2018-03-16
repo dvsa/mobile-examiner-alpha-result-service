@@ -1,12 +1,8 @@
 [
     {
       "id": "1",
-      "candidate": {
-        "name": "Daniel",
-        "surname": "Childs"
-      },
-      "pass": true,
-      "competencies": [
+      "_candidateId": 11,
+      "faults": [
         {
           "id": "juncSpeed",
           "faultsNo": 1,
@@ -17,12 +13,8 @@
     },
     {
       "id": "2",
-      "candidate": {
-        "name": "Ross",
-        "surname": "McDonald"
-      },
-      "pass": true,
-      "competencies": [
+      "_candidateId": 22,
+      "faults": [
         {
           "id": "vehicleCheck",
           "faultsNo": 4,
@@ -33,12 +25,8 @@
     },
     {
       "id": "3",
-      "candidate": {
-        "name": "Szymon",
-        "surname": "Richert"
-      },
-      "pass": false,
-      "competencies": [
+      "_candidateId": 33,
+      "faults": [
         {
           "id": "mirrorSignal",
           "faultsNo": 1,
@@ -49,12 +37,8 @@
     },
     {
       "id": "4",
-      "candidate": {
-        "name": "John",
-        "surname": "Smith"
-      },
-      "pass": false,
-      "competencies": [
+      "_candidateId": 44,
+      "faults": [
         {
           "id": "posDriving",
           "faultsNo": 2,

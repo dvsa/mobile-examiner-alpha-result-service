@@ -1,14 +1,14 @@
 import { doc } from 'serverless-dynamodb-client';
 import { Context, Callback } from 'aws-lambda';
 
-import { IDrivingTest } from '../interfaces/interface';
-import DrivingTests from '../services/driving-tests';
+import { ITestResult } from '../interfaces/interface';
+import { TestResultService } from '../services/testResult';
 
-const drivingTest = new DrivingTests(doc, process.env.DYNAMODB_TABLE);
+const testResultService = new TestResultService(doc, process.env.DYNAMODB_TABLE);
 
 export default (event: any, context: Context, callback: Callback) => {
 	const data = JSON.parse(event.body);
-	const drivingTestData: IDrivingTest = (({ candidate, pass, competencies }) => ({ candidate, pass, competencies }))(data);
+	const testResult: ITestResult = (({ _candidateId, faults }) => ({ _candidateId, faults }))(data);
 
-	drivingTest.create(drivingTestData, callback);
+	testResultService.create(testResult, callback);
 };

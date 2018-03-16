@@ -1,12 +1,14 @@
+import { Callback } from 'aws-lambda';
 import createResponse from '../utils/createResponse';
 import { DynamoDB, AWSError } from 'aws-sdk';
 import * as UUID from 'uuid'
+import { ITestResult } from '../interfaces/interface';
 
-export default class DrivingTests {
+export class TestResultService {
 
 	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { }
 
-	list(callback) {
+	list(callback: Callback) {
 		let message: string;
 		let response;
 		let error;
@@ -39,50 +41,12 @@ export default class DrivingTests {
 		})
 	}
 
-	get(id, callback) {
+	create(drivingTestsData: ITestResult, callback:Callback) {
 		let message;
 		let error;
 		let response;
 
-		const params = {
-			TableName: this.tableName,
-			Key: {
-				id
-			},
-		};
-
-		this.db.get(params, (err, data) => {
-
-			if (err) {
-				message = 'Error!';
-				error = createResponse({
-					body: {
-						message,
-						err,
-					},
-					statusCode: 500,
-				});
-				callback(error);
-			} else {
-				const user = data.Item;
-				message = 'Success!';
-				response = createResponse({
-					body: {
-						message,
-						user,
-					},
-				});
-				callback(null, response);
-			}
-		});
-
-	}
-
-	create(drivingTestsData, callback) {
-		let message;
-		let error;
-		let response;
-
+		
 		// if (typeof name !== 'string' || typeof role !== 'string') {
 		// 	console.error('Validation Failed');
 		// 	error = createResponse({
@@ -91,9 +55,11 @@ export default class DrivingTests {
 		// 	});
 		// 	callback(error);
 		// }
+
+		const id = UUID.v1()
 		const params = {
 			TableName: this.tableName,
-			Item: { ...drivingTestsData, id: UUID.v1()  }
+			Item: { ...drivingTestsData, id  }
 		};
 
 		// write the user to the database
@@ -111,14 +77,14 @@ export default class DrivingTests {
 				});
 				callback(error);
 			} else {
-				message = 'Success!';
-				// create a response
-				response = createResponse({
-					body: {
-						message,
-						user: params.Item,
+				const response = {
+					statusCode: 201,
+					headers: {
+						'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+						'Location': `/test-result/${id}`
 					},
-				});
+				};
+
 				callback(null, response);
 			}
 		});
