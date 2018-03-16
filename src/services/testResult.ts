@@ -15,7 +15,7 @@ export class TestResultService {
 
 		const params: DynamoDB.DocumentClient.ScanInput = { TableName: this.tableName };
 
-		console.log('Scanning DrivingTests Table..');
+		console.log('Scanning testResultTable...');
 
 		this.db.scan(params, (err: AWSError, data: DynamoDB.ScanOutput) => {
 			if (err) {
@@ -41,12 +41,12 @@ export class TestResultService {
 		})
 	}
 
-	create(drivingTestsData: ITestResult, callback:Callback) {
+	create(testResultData: ITestResult, callback: Callback) {
 		let message;
 		let error;
 		let response;
 
-		
+
 		// if (typeof name !== 'string' || typeof role !== 'string') {
 		// 	console.error('Validation Failed');
 		// 	error = createResponse({
@@ -59,7 +59,7 @@ export class TestResultService {
 		const id = UUID.v1()
 		const params = {
 			TableName: this.tableName,
-			Item: { ...drivingTestsData, id  }
+			Item: { ...testResultData, id }
 		};
 
 		// write the user to the database
