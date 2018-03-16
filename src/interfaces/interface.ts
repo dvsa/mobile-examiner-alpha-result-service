@@ -1,8 +1,3 @@
-export interface ICandidate {
-	name: string,
-	surname: string
-}
-
 export interface ICompetency {
 	id: string,
 	faultsNo: number,
@@ -10,9 +5,8 @@ export interface ICompetency {
 	isDangerous: boolean
 }
 
-export interface IDrivingTest {
+export interface ITestResult {
 	id?: string,
-	candidate: ICandidate,
-	pass: boolean,
-	competencies: ICompetency[]
+	_candidateId: string,
+	faults: ICompetency[]
 }
