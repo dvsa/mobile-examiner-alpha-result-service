@@ -4,6 +4,12 @@ import { DynamoDB, AWSError } from 'aws-sdk';
 import * as UUID from 'uuid'
 import { ITestResult } from '../interfaces/interface';
 
+export interface IResponse {
+	body: any,
+	statusCode: number,
+	headers: { [id: string]: string; }
+}
+
 export class TestResultService {
 
 	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { }
@@ -41,20 +47,13 @@ export class TestResultService {
 		})
 	}
 
-	create(testResultData: ITestResult, callback: Callback) {
-		let message;
-		let error;
-		let response;
+	create(requestBody: any, callback: Callback) {
+		const testResultData: ITestResult = this.extractTestResult(requestBody);
+		const validationErrorResponse = this.validateTestResult(testResultData);
 
-
-		// if (typeof name !== 'string' || typeof role !== 'string') {
-		// 	console.error('Validation Failed');
-		// 	error = createResponse({
-		// 		body: 'Couldn\'t create the user.',
-		// 		statusCode: 400,
-		// 	});
-		// 	callback(error);
-		// }
+		if (validationErrorResponse) {
+			return callback(null, validationErrorResponse)
+		}
 
 		const id = UUID.v1()
 		const params = {
@@ -62,31 +61,59 @@ export class TestResultService {
 			Item: { ...testResultData, id }
 		};
 
-		// write the user to the database
-		this.db.put(params, (err) => {
-			// handle potential errors
+		this.db.put(params, (err: AWSError) => {
 			if (err) {
-				message = 'Error!';
-				console.error(err);
-				error = createResponse({
+				const error = createResponse({
 					body: {
-						message,
+						message: 'Error!',
 						err,
 					},
 					statusCode: 500,
 				});
-				callback(error);
-			} else {
-				const response = {
-					statusCode: 201,
-					headers: {
-						'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-						'Location': `/test-result/${id}`
-					},
-				};
 
-				callback(null, response);
+				callback(null, error);
+			} else {
+				const statusCode = 201;
+				const headers = {
+					'Location': `/test-result/${id}`,
+					'Access-Control-Expose-Headers': 'Location'
+				}
+
+				callback(null, createResponse(null, statusCode, headers));
 			}
 		});
+	}
+
+	private validateTestResult(testResultData: ITestResult): IResponse | null {
+		if (!testResultData._candidateId || typeof (testResultData._candidateId) !== 'string') {
+			return this.createMissingPropertyError('_candidateId')
+		} else if (!testResultData.faults || typeof (testResultData.faults) !== 'object') {
+			return this.createMissingPropertyError('faults')
+		}
+
+		return null;
+	}
+
+	private createMissingPropertyError(propertyName): IResponse {
+		return createResponse({
+			title: 'Error',
+			message: `${propertyName} property is missing`,
+		}, 400);
+	}
+
+	private extractTestResult(object: any): ITestResult {
+		let body: any;
+
+		if (object && typeof (object) === 'object') {
+			body = object
+		} else {
+			try {
+				body = JSON.parse(object);
+			} catch (e) {
+				console.error(`Couldn\'t parse body ${e}`)
+			}
+		}
+
+		return (({ _candidateId, faults }) => ({ _candidateId, faults }))(body);
 	}
 }
