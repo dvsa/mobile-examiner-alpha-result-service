@@ -2,31 +2,6 @@ service: aws-starter
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 custom:
-  documentation:
-    models:
-      - name: ErrorResponse
-        description: This is an error
-        contentType: application/json
-        schema: ${file(models/ErrorResponse.json)}
-      - name: PutRequest
-        description: This is a put request
-        contentType: application/json
-        schema: ${file(models/PutRequest.json)}
-      - name: GetResponse
-        description: This is a getresponse
-        contentType: application/json
-        schema: ${file(models/GetResponse.json)}
-      - name: UserResponse
-        description: This is a user response
-        contentType: application/json
-        schema: ${file(models/UserResponse.json)}
-      - name: UsersResponse
-        description: This is a users response
-        contentType: application/json
-        schema: ${file(models/UsersResponse.json)}
-    version: '1'
-    title: 'Test API'
-    description: 'This is a test of open api dcoumentation'
   dynamodb:
     start:
       port: 8000
@@ -66,24 +41,6 @@ functions:
           method: get
           authorizer: authorizer
           cors: true
-          documentation:
-            summary: "List of test results"
-            description: "Lists of test results"
-            requestBody:
-              description: "None"
-            requestModels:
-              application/json: "GetRequest"
-            methodResponses:
-              - statusCode: 200
-                responseBody:
-                  description: "A list of test results"
-                responseModels:
-                  application/json: "UsersResponse"
-              - statusCode: 500
-                responseBody:
-                  description: "An error message when listing test results"
-                responseModels:
-                  application/json: "ErrorResponse"
   create:
     handler: handler.create
     memorySize: 128
