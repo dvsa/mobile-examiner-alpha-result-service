@@ -10,3 +10,9 @@ export interface ITestResult {
 	_candidateId: string,
 	faults: ICompetency[]
 }
+
+export interface IResponse {
+	body: any,
+	statusCode: number,
+	headers: { [id: string]: string; }
+}

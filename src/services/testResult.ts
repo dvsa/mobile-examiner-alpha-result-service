@@ -2,17 +2,13 @@ import { Callback } from 'aws-lambda';
 import createResponse from '../utils/createResponse';
 import { DynamoDB, AWSError } from 'aws-sdk';
 import * as UUID from 'uuid'
-import { ITestResult } from '../interfaces/interface';
+import { ITestResult, IResponse } from '../interfaces/interface';
 
-export interface IResponse {
-	body: any,
-	statusCode: number,
-	headers: { [id: string]: string; }
-}
+export default class TestResultService {
 
-export class TestResultService {
-
-	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { }
+	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { 
+		console.log('hej');
+	}
 
 	list(callback: Callback) {
 		let message: string;
