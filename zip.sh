@@ -1,1 +1,3 @@
-zip -r deployment-package ./build/
+cd build
+zip -r deployment-package .
+mv deployment-package.zip ../

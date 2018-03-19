@@ -17,7 +17,7 @@
     "compile": "./node_modules/.bin/tsc",
     "offline": "cd ./build && sls offline start --noAuth",
     "test": "./node_modules/.bin/jest",
-    "create-package": "npm install && npm run test && npm run compile && npm run copy-package && cd ./build && npm install --production &&  cd ../ && sh zip.sh"
+    "create-package": "npm install && npm run test && npm run compile && npm run copy-package && cd ./build && npm install --production && cd .. && sh zip.sh"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.33",
