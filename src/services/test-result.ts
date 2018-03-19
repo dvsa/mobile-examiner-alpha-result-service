@@ -1,14 +1,12 @@
 import { Callback } from 'aws-lambda';
-import createResponse from '../utils/createResponse';
+import createResponse from '../utils/create-response';
 import { DynamoDB, AWSError } from 'aws-sdk';
 import * as UUID from 'uuid'
 import { ITestResult, IResponse } from '../interfaces/interface';
 
 export default class TestResultService {
 
-	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { 
-		console.log('hej');
-	}
+	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { }
 
 	list(callback: Callback) {
 		let message: string;
@@ -60,12 +58,9 @@ export default class TestResultService {
 		this.db.put(params, (err: AWSError) => {
 			if (err) {
 				const error = createResponse({
-					body: {
-						message: 'Error!',
-						err,
-					},
-					statusCode: 500,
-				});
+					message: 'Error!',
+					error: err
+				}, 500);
 
 				callback(null, error);
 			} else {

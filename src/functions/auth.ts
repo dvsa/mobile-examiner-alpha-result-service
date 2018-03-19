@@ -1,6 +1,6 @@
-import SimpleAuth from '../services/simpleAuth';
-import NoAuth from '../services/noAuth';
-import isDevEnv from '../utils/isDevEnv';
+import SimpleAuth from '../services/simple-auth';
+import NoAuth from '../services/no-auth';
+import isDevEnv from '../utils/is-dev-env';
 
 import { Context, Callback } from 'aws-lambda';
 import { IAuth } from '../services/iauth';

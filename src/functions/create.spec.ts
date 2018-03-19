@@ -1,15 +1,15 @@
 import create from './create';
-import TestResultService from '../services/testResult';
+import TestResultService from '../services/test-result';
 
-jest.mock('../services/testResult')
+jest.mock('../services/test-result')
 
 describe('create handler', () => {
-    test('should pass event.body to test result service', () => {
+    it('should pass event.body to test result service', () => {
         const expectedBody = { test: 'test' }
         let event = { body: expectedBody };
 
         create(event, null, () => {})
-        
+
         const createdInstances = TestResultService.mock.instances;
         const createdInstance = createdInstances[0].create;
 
