@@ -7,40 +7,7 @@ import { ITestResult, IResponse } from '../interfaces/interface';
 export default class TestResultService {
 
 	constructor(private db: DynamoDB.DocumentClient, private tableName: string) { }
-
-	list(callback: Callback) {
-		let message: string;
-		let response;
-		let error;
-
-		const params: DynamoDB.DocumentClient.ScanInput = { TableName: this.tableName };
-
-		console.log('Scanning testResultTable...');
-
-		this.db.scan(params, (err: AWSError, data: DynamoDB.ScanOutput) => {
-			if (err) {
-				message = 'Error!';
-				error = createResponse({
-					body: {
-						message,
-						err,
-					},
-					statusCode: 500,
-				});
-				callback(error);
-			} else {
-				message = 'Success!';
-				response = createResponse({
-					body: {
-						message,
-						drivingTests: data.Items,
-					},
-				});
-				callback(null, response);
-			}
-		})
-	}
-
+	
 	create(requestBody: any, callback: Callback) {
 		const testResultData: ITestResult = this.extractTestResult(requestBody);
 		const validationErrorResponse = this.validateTestResult(testResultData);
