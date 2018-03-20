@@ -1,7 +1,7 @@
 [
     {
       "id": "1",
-      "_candidateId": 11,
+      "candidateId": 11,
       "faults": [
         {
           "id": "juncSpeed",
@@ -13,7 +13,7 @@
     },
     {
       "id": "2",
-      "_candidateId": 22,
+      "candidateId": 22,
       "faults": [
         {
           "id": "vehicleCheck",
@@ -25,7 +25,7 @@
     },
     {
       "id": "3",
-      "_candidateId": 33,
+      "candidateId": 33,
       "faults": [
         {
           "id": "mirrorSignal",
@@ -37,7 +37,7 @@
     },
     {
       "id": "4",
-      "_candidateId": 44,
+      "candidateId": 44,
       "faults": [
         {
           "id": "posDriving",

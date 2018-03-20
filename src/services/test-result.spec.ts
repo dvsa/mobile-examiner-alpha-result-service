@@ -12,7 +12,7 @@ const mockDBWithPutFailure = jest.fn<DynamoDB.DocumentClient>(() => ({
 	put: jest.fn((param, closure) => closure({})),
 }))();
 const validTestResult = {
-	_candidateId: "some candidate Id",
+	candidateId: "some candidate Id",
 	faults: []
 }
 
@@ -33,11 +33,11 @@ describe('TestResultService', () => {
 			})
 		})
 
-		describe('when _candidateId is missing', () => {
+		describe('when candidateId is missing', () => {
 			it('should return 400 with error msg', () => {
 				testResultService.create({}, (error, result: IResponse) => {
 					const body = JSON.parse(result.body)
-					expect(body.message).toContain('_candidateId property is missing');
+					expect(body.message).toContain('candidateId property is missing');
 					expect(result.statusCode).toBe(400);
 					expect(result.headers).toEqual({ "Access-Control-Allow-Origin": "*" })
 				})
@@ -46,7 +46,7 @@ describe('TestResultService', () => {
 
 		describe('when faults is missing', () => {
 			it('should return 400 with error msg', () => {
-				testResultService.create({ _candidateId: '123' }, (error, result: IResponse) => {
+				testResultService.create({ candidateId: '123' }, (error, result: IResponse) => {
 					const body = JSON.parse(result.body)
 					expect(body.message).toContain('faults property is missing');
 					expect(result.statusCode).toBe(400);
@@ -61,7 +61,7 @@ describe('TestResultService', () => {
 
 				const paramsPassedToDB = mockDBWithPutSuccess.put.mock.calls[0][0]
 				expect(paramsPassedToDB.TableName).toBe(mockTableName)
-				expect(paramsPassedToDB.Item._candidateId).toBe(validTestResult._candidateId)
+				expect(paramsPassedToDB.Item.candidateId).toBe(validTestResult.candidateId)
 				expect(paramsPassedToDB.Item.faults).toEqual(validTestResult.faults)
 				expect(paramsPassedToDB.Item.id).toBeDefined()
 			})

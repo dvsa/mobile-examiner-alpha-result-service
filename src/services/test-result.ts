@@ -44,8 +44,8 @@ export default class TestResultService {
 	}
 
 	private validateTestResult(testResultData: ITestResult): IResponse | null {
-		if (!testResultData._candidateId || typeof (testResultData._candidateId) !== 'string') {
-			return this.createMissingPropertyError('_candidateId')
+		if (!testResultData.candidateId || typeof (testResultData.candidateId) !== 'string') {
+			return this.createMissingPropertyError('candidateId')
 		} else if (!testResultData.faults || typeof (testResultData.faults) !== 'object') {
 			return this.createMissingPropertyError('faults')
 		}
@@ -73,7 +73,10 @@ export default class TestResultService {
 			}
 		}
 
-		const testResult = (({ _candidateId, faults }) => ({ _candidateId, faults }))(body);
-		return testResult;
+		const { candidateId, faults } = body;
+		return {
+			candidateId,
+			faults
+		}
 	}
 }

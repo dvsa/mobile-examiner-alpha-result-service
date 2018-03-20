@@ -25,14 +25,14 @@ paths:
               type: string
               description: '/test-result/{id} - Link to newly created result.'
         '400':
-          description: Missing either _candidateId or faults property
+          description: Missing either candidateId or faults property
         '500':
           description: Problem with saving Test Result in database
 definitions:
   TestResult:
     type: object
     properties:
-      _candidateId:
+      candidateId:
         type: string
         format: uuid.v1
       faults:
