@@ -1,0 +1,57 @@
+{
+  "name": "mobile-examiner-alpha-journal-service",
+  "version": "1.0.0",
+  "description": "AWS λ that provide handler for posting test results",
+  "repository": "https://github.com/dvsa/mobile-examiner-alpha-journal-service",
+  "scripts": {
+    "start": "rm -rf build && npm run copy-localfiles && npm run watch",
+    "copy-localfiles": "npm run copy-sls && npm run copy-mockdata && npm run copy-models",
+    "copy-sls": "./node_modules/.bin/copyfiles -f serverless/*.yml build",
+    "copy-mockdata": "./node_modules/.bin/copyfiles mock-data/*.json build",
+    "copy-models": "./node_modules/.bin/copyfiles -f src/models/*.json build/models",
+    "copy-package": "./node_modules/.bin/copyfiles package.json build/",
+    "parallel": "./node_modules/.bin/run-p watch offline",
+    "watch": "./node_modules/.bin/nodemon --watch src --exec \"npm run compile && npm run offline\" --ext js,ts,json,xml",
+    "compile": "./node_modules/.bin/tsc",
+    "offline": "cd ./build && sls offline start --noAuth",
+    "test": "./node_modules/.bin/jest",
+    "create-package": "npm install && npm run test && npm run compile && npm run copy-package && cd ./build && npm install --production && cd .. && sh zip.sh"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "0.0.33",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/jest": "^22.2.0",
+    "@types/node": "^9.4.7",
+    "@types/uuid": "^3.4.3",
+    "copyfiles": "^1.2.0",
+    "jest": "^22.4.2",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1",
+    "replace": "^0.3.0",
+    "serverless": "^1.23.0",
+    "serverless-dynamodb-local": "^0.2.26",
+    "serverless-offline": "^3.16.0",
+    "serverless-openapi-documentation": "^0.3.0",
+    "ts-jest": "^22.4.2",
+    "typescript": "2.7.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.140.0",
+    "uuid": "^3.1.0",
+    "serverless-dynamodb-client": "0.0.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}

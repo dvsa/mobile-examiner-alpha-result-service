@@ -1,0 +1,62 @@
+swagger: '2.0'
+info:
+  title: Mobile Examiners Result Service
+  version: '1.0'
+paths:
+  /test-result:
+    post:
+      tags:
+        - testresult
+      summary: Add a new Test Result to the database
+      description: ''
+      operationId: addTestResult
+      parameters:
+        - in: body
+          name: body
+          description: Test Result object that needs to be added to the database
+          required: true
+          schema:
+            $ref: '#/definitions/TestResult'
+      responses:
+        '201':
+          description: Test Results has been added with success
+          headers:
+            Location:
+              type: string
+              description: '/test-result/{id} - Link to newly created result.'
+        '400':
+          description: Missing either candidateId or faults property
+        '500':
+          description: Problem with saving Test Result in database
+definitions:
+  TestResult:
+    type: object
+    properties:
+      candidateId:
+        type: string
+        format: uuid.v1
+      faults:
+        type: array
+        xml:
+          name: tag
+          wrapped: true
+        items:
+          $ref: '#/definitions/DrivingFaults'
+    xml:
+      name: TestResult
+  DrivingFaults:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of competency
+      faultsNo:
+        type: integer
+        format: int32
+        description: Number of faults in given competency
+      isDangerous:
+        type: boolean
+      isSerious:
+        type: boolean
+    xml:
+      name: TestResult

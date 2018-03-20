@@ -1,0 +1,50 @@
+[
+    {
+      "id": "1",
+      "candidateId": 11,
+      "faults": [
+        {
+          "id": "juncSpeed",
+          "faultsNo": 1,
+          "isSerious": false,
+          "isDangerous": false
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "candidateId": 22,
+      "faults": [
+        {
+          "id": "vehicleCheck",
+          "faultsNo": 4,
+          "isSerious": false,
+          "isDangerous": false
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "candidateId": 33,
+      "faults": [
+        {
+          "id": "mirrorSignal",
+          "faultsNo": 1,
+          "isSerious": false,
+          "isDangerous": true
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "candidateId": 44,
+      "faults": [
+        {
+          "id": "posDriving",
+          "faultsNo": 2,
+          "isSerious": true,
+          "isDangerous": false
+        }
+      ]
+    }
+]
