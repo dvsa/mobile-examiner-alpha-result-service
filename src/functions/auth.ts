@@ -3,7 +3,7 @@ import NoAuth from '../services/no-auth';
 import isDevEnv from '../utils/is-dev-env';
 
 import { Context, Callback } from 'aws-lambda';
-import { IAuth } from '../services/iauth';
+import { IAuth } from '../interfaces/iauth';
 
 export default (event, context: Context, callback: Callback) => {
 	const token = event.authorizationToken;

@@ -1,4 +1,4 @@
-import { IResponse } from './../interfaces/interface';
+import { IResponse } from '../interfaces/itestresult';
 import TestResultService from "./test-result";
 import { DynamoDB } from "aws-sdk";
 

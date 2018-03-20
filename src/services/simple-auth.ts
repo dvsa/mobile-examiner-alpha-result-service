@@ -1,4 +1,4 @@
-import { IAuth } from './iauth';
+import { IAuth } from '../interfaces/iauth';
 /* eslint class-methods-use-this: "off" */
 /* eslint-env es6 */
 // TODO, replace this with real authentication.

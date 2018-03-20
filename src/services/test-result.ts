@@ -1,8 +1,9 @@
+import { ITestResult } from '../interfaces/itest-result';
 import { Callback } from 'aws-lambda';
 import createResponse from '../utils/create-response';
 import { DynamoDB, AWSError } from 'aws-sdk';
 import * as UUID from 'uuid'
-import { ITestResult, IResponse } from '../interfaces/interface';
+import { IResponse } from '../interfaces/iresponse';
 
 export default class TestResultService {
 
@@ -72,6 +73,7 @@ export default class TestResultService {
 			}
 		}
 
-		return (({ _candidateId, faults }) => ({ _candidateId, faults }))(body);
+		const testResult = (({ _candidateId, faults }) => ({ _candidateId, faults }))(body);
+		return testResult;
 	}
 }

@@ -1,4 +1,4 @@
-import { IResponse } from "../interfaces/interface";
+import { IResponse } from "../interfaces/iresponse";
 
 export default (body: any, statusCode = 200, reqHeaders: { [id: string]: string; } = {}): IResponse => {
 	const accessControlAllowOriginHeader = {
