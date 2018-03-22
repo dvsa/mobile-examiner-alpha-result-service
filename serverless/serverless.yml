@@ -31,16 +31,6 @@ functions:
   authorizer:
     handler: handler.auth
     memorySize: 128
-  list:
-    handler: handler.list
-    memorySize: 128
-    events:
-      -
-        http:
-          path: test-result
-          method: get
-          authorizer: authorizer
-          cors: true
   create:
     handler: handler.create
     memorySize: 128
