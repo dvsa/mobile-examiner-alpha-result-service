@@ -11,3 +11,6 @@ AWS Lambda written in TypeScript to add test result into database (DynamoDB)
 
 ### Swagger
 +Go to [editor.swagger.io](http://editor.swagger.io/) and paste in the contents of `./swagger/test-result.yml
+
+# Distribution builds
+Refer to the scripts inside dist-scripts for each of the distribution build steps
