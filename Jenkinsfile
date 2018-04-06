@@ -18,6 +18,7 @@ String branch_name   = "${env.BRANCH_NAME}"
 String tf_component = Globals.USERVICE_MAPPING[uservice_name]
 
 
+
 node (Globals.NONPROD_BUILDER_TAG) {
   currentBuild.description = "BRANCH: ${branch_name}"
 
@@ -58,6 +59,15 @@ node (Globals.NONPROD_BUILDER_TAG) {
       tf_extra_args = " -var '${uservice_name}_code_base64sha256sum=${sha256sum}' -target module.${uservice_name}_uservice.aws_lambda_function.general_lambda_function"
       dir("terraform") {
         TFFunctions.terraform_run(Globals.PROJECT_NAME, "nonprod", tf_component, tf_actions['apply'], Globals.TF_BUCKET_PREFIX, Globals.AWS_DEFAULT_REGION, tf_log_level, tf_extra_args)
+      }
+    }
+  }
+  stage('smoke-test') {
+    if(branch_name == "develop" || branch_name == "origin/develop"){
+      dir(uservice_name) {
+        withEnv(["RESULT_API_URL="+Globals.RESULT_API_URL]){
+          NVMFunctions.run("./dist-scripts/smoke-test.sh")
+        }
       }
     }
   }
