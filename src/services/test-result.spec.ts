@@ -13,7 +13,7 @@ const mockDBWithPutFailure = jest.fn<DynamoDB.DocumentClient>(() => ({
 }))();
 const validTestResult = {
 	candidateId: "some candidate Id",
-	faults: []
+	faults: "[]"
 }
 
 let testResultService: TestResultService;

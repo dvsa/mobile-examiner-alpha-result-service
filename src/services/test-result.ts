@@ -46,7 +46,7 @@ export default class TestResultService {
 	private validateTestResult(testResultData: ITestResult): IResponse | null {
 		if (!testResultData.candidateId || typeof (testResultData.candidateId) !== 'string') {
 			return this.createMissingPropertyError('candidateId')
-		} else if (!testResultData.faults || typeof (testResultData.faults) !== 'object') {
+		} else if (!testResultData.faults || typeof (testResultData.faults) !== 'string') {
 			return this.createMissingPropertyError('faults')
 		}
 
