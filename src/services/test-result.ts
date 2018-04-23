@@ -62,12 +62,13 @@ export default class TestResultService {
 
 	private extractTestResult(object: any): ITestResult {
 		let body: any;
-
+		
 		if (object && typeof (object) === 'object') {
 			body = object
 		} else {
 			try {
 				body = JSON.parse(object);
+				body.faults = JSON.parse(body.faults)
 			} catch (e) {
 				console.error(`Couldn\'t parse body ${e}`)
 			}
