@@ -12,7 +12,7 @@ export default class TestResultService {
 	create(requestBody: any, callback: Callback) {
 		const testResultData: ITestResult = this.extractTestResult(requestBody);
 		const validationErrorResponse = this.validateTestResult(testResultData);
-
+		
 		if (validationErrorResponse) {
 			return callback(null, validationErrorResponse)
 		}
@@ -22,6 +22,8 @@ export default class TestResultService {
 			TableName: this.tableName,
 			Item: { ...testResultData, id }
 		};
+		
+		console.log(params);
 
 		this.db.put(params, (err: AWSError) => {
 			if (err) {
@@ -46,7 +48,7 @@ export default class TestResultService {
 	private validateTestResult(testResultData: ITestResult): IResponse | null {
 		if (!testResultData.candidateId || typeof (testResultData.candidateId) !== 'string') {
 			return this.createMissingPropertyError('candidateId')
-		} else if (!testResultData.faults || typeof (testResultData.faults) !== 'object') {
+		} else if (!testResultData.faults || typeof (testResultData.faults) !== 'string') {
 			return this.createMissingPropertyError('faults')
 		}
 
@@ -68,7 +70,7 @@ export default class TestResultService {
 		} else {
 			try {
 				body = JSON.parse(object);
-				body.faults = JSON.parse(body.faults)
+				// body.faults = JSON.parse(body.faults)
 			} catch (e) {
 				console.error(`Couldn\'t parse body ${e}`)
 			}
